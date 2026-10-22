@@ -4,25 +4,33 @@ expanse_dict = {
     "amount" : []
 }
 
+
 def add_expanse() :
+    def append_to_dict() :
+        expanse_dict["amount"].append(expanse_amount) 
+        expanse_dict["name"].append(expanse_name)
+        expanse_dict["catagary"].append(expanse_catagary.upper().strip())
+   
+   
     expanse_name = input("\nEnter expanse name :")
     expanse_catagary = input("Enter the expanse catagary:")
 
     try :
-        expanse_amount = int(input("Enter the amount:"))
+        expanse_amount = float(input("Enter the amount:"))
     
         if expanse_amount <= 0 :
-            print("Please enter the values greater than zero !")
-    
-        else :         
-            expanse_dict["name"].append(expanse_name)
-            expanse_dict["catagary"].append(expanse_catagary.upper())
-            expanse_dict["amount"].append(expanse_amount)
-            print("Expanse added sucssfully!\n")
-
+            print("\nPlease enter the values greater than zero in the amount section !")  
+        elif expanse_name.strip() == "" :
+            print("\nplease enter the expanse name dont leave it empty !")
+        elif expanse_catagary.strip() == "" :
+            print("\nplease enter the expanse catagary dont leave it empty")
+        else :
+            append_to_dict()
+            print("\nExpanse added sucssfully!\n")
+               
     except ValueError :
-        print("Enter only numbers")
-   
+        print("\nEnter only numbers in the amount section !")  
+
     
 def view_expanse() :
     if expanse_dict["name"] == [] :
@@ -47,19 +55,21 @@ def total_expanse() :
 def expanse_by_catagary() :
     catagary = input("\nEnter the catagary :")
     total_catagary_expanse = 0
-    print(f"\n===== {catagary.upper()} EXPENSES =====")
-    for i in range(len(expanse_dict["catagary"])) :
-        if catagary.upper() == expanse_dict["catagary"][i] :
-            print(expanse_dict["name"][i]," : ",expanse_dict["amount"][i])
-            total_catagary_expanse += expanse_dict["amount"][i]
+    
     
     if expanse_dict["catagary"] == [] :
         print("There is no expanse has been recorded yet !")
-    elif catagary.upper() not in expanse_dict["catagary"]  :
-            print("there is no such a catagary in your expanse record !!")
+    elif catagary.strip() == "" :
+        print("please enter the catagary to search")
+    elif catagary.upper().strip() not in expanse_dict["catagary"]  :
+                print("there is no such a catagary in your expanse record !!")
     else :
+        print(f"\n===== {catagary.upper()} EXPENSES =====")
+        for i in range(len(expanse_dict["catagary"])) :
+            if catagary.upper().strip() == expanse_dict["catagary"][i] :
+                print(expanse_dict["name"][i]," : ",expanse_dict["amount"][i])
+                total_catagary_expanse += expanse_dict["amount"][i]
         print(f"\nTotal {catagary.upper()} Expanse :{total_catagary_expanse}")
-
 
 while True :
     print("\n=======Expanse Tracker======== \n")
