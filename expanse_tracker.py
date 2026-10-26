@@ -1,15 +1,29 @@
-expanse_dict = {
-    "name" : [],
-    "catagary" : [],
-    "amount" : []
-}
+import json
+
+try :
+    with open('expanse_data.json', 'r') as file :
+       data = json.load(file)
+except FileNotFoundError :
+    data = {
+        "expanse_dict": {
+            "name": [],
+            "catagary": [],
+            "amount": []
+        }
+    }
 
 
 def add_expanse() :
+
     def append_to_dict() :
-        expanse_dict["amount"].append(expanse_amount) 
-        expanse_dict["name"].append(expanse_name)
-        expanse_dict["catagary"].append(expanse_catagary.upper().strip())
+
+       
+        data["expanse_dict"]["amount"].append(expanse_amount) 
+        data["expanse_dict"]["name"].append(expanse_name)
+        data["expanse_dict"]["catagary"].append(expanse_catagary.upper().strip())
+
+        with open("expanse_data.json",'w') as file :
+            json.dump(data, file, indent = 2)
    
    
     expanse_name = input("\nEnter expanse name :")
@@ -28,28 +42,29 @@ def add_expanse() :
             append_to_dict()
             print("\nExpanse added sucssfully!\n")
                
-    except ValueError :
-        print("\nEnter only numbers in the amount section !")  
-
+    except ValueError:
+        print("\nPlease enter only numbers in the amount section !")
+        
     
 def view_expanse() :
-    if expanse_dict["name"] == [] :
+    if data["expanse_dict"]["name"] == [] :
          print("\nno xepanse has been recoreded yet !!")
     else :
         print("\n===== ALL EXPENSES =====")
-        for i in range(len(expanse_dict["amount"])) :
-            print("\nname :",expanse_dict["name"][i])
-            print("catagary :",expanse_dict["catagary"][i])
-            print("amount :",expanse_dict["amount"][i])
+        for i in range(len(data["expanse_dict"]["amount"])) :
+            print("\nname :",data["expanse_dict"]["name"][i])
+            print("catagary :",data["expanse_dict"]["catagary"][i])
+            print("amount :",data["expanse_dict"]["amount"][i])
+   
 
 def total_expanse() :
-    if expanse_dict["amount"] == [] :
+    if data["expanse_dict"]["amount"] == [] :
         print("No expanse has been recoreded yet !")
     else :
         print("\n===== TOTAL EXPENSES =====")
         total = 0
-        for i in range(len(expanse_dict["amount"])) :
-            total += expanse_dict["amount"][i]
+        for i in range(len(data["expanse_dict"]["amount"])) :
+            total += data["expanse_dict"]["amount"][i]
         print("\nTotal expanse :",total)    
 
 def expanse_by_catagary() :
@@ -57,18 +72,18 @@ def expanse_by_catagary() :
     total_catagary_expanse = 0
     
     
-    if expanse_dict["catagary"] == [] :
+    if data["expanse_dict"]["catagary"] == [] :
         print("There is no expanse has been recorded yet !")
     elif catagary.strip() == "" :
         print("please enter the catagary to search")
-    elif catagary.upper().strip() not in expanse_dict["catagary"]  :
+    elif catagary.upper().strip() not in data["expanse_dict"]["catagary"]  :
                 print("there is no such a catagary in your expanse record !!")
     else :
         print(f"\n===== {catagary.upper()} EXPENSES =====")
-        for i in range(len(expanse_dict["catagary"])) :
-            if catagary.upper().strip() == expanse_dict["catagary"][i] :
-                print(expanse_dict["name"][i]," : ",expanse_dict["amount"][i])
-                total_catagary_expanse += expanse_dict["amount"][i]
+        for i in range(len(data["expanse_dict"]["catagary"])) :
+            if catagary.upper().strip() == data["expanse_dict"]["catagary"][i] :
+                print(data["expanse_dict"]["name"][i]," : ",data["expanse_dict"]["amount"][i])
+                total_catagary_expanse += data["expanse_dict"]["amount"][i]
         print(f"\nTotal {catagary.upper()} Expanse :{total_catagary_expanse}")
 
 while True :
@@ -89,6 +104,7 @@ while True :
         add_expanse()
     elif choice == 2 :
         view_expanse()
+  
     elif choice == 3 :
         total_expanse()
     elif choice == 4 :
